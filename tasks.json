@@ -1,0 +1,59 @@
+[
+  {
+    "id": "easy_1",
+    "ticket": "I was charged twice for my order",
+    "expected_category": "Billing"
+  },
+  {
+    "id": "easy_2",
+    "ticket": "How do I reset my password?",
+    "expected_category": "General"
+  },
+  {
+    "id": "medium_1",
+    "ticket": "My payment failed but money got deducted",
+    "expected_category": "Billing",
+    "expected_priority": "High",
+    "expected_resolution": "refund"
+  },
+  {
+    "id": "medium_2",
+    "ticket": "App crashes when I try to login",
+    "expected_category": "Technical",
+    "expected_priority": "High",
+    "expected_resolution": "escalate"
+  },
+  {
+    "id": "hard_1",
+    "ticket": "I ordered a product, it's damaged and app is not letting me return it",
+    "expected_category": "Billing",
+    "expected_priority": "High",
+    "expected_resolution": "refund",
+    "keywords": ["refund", "sorry", "process"]
+  },
+  {
+    "id": "hard_2",
+    "ticket": "The app is slow and sometimes crashes, also I can't update my profile",
+    "expected_category": "Technical",
+    "expected_priority": "Medium",
+    "expected_resolution": "guide",
+    "keywords": ["update", "steps", "fix"]
+  }
+  ,
+{
+  "id": "hard_3",
+  "ticket": "I was charged twice, the app crashed, and I need urgent help",
+  "expected_category": "Billing",
+  "expected_priority": "High",
+  "expected_resolution": "refund",
+  "keywords": ["refund", "sorry", "urgent"]
+},
+{
+  "id": "hard_4",
+  "ticket": "My account is hacked and I lost money, also support is not responding",
+  "expected_category": "Technical",
+  "expected_priority": "High",
+  "expected_resolution": "escalate",
+  "keywords": ["secure", "help", "immediately"]
+}
+]
