@@ -3,14 +3,39 @@ from env import SupportEnv
 
 app = FastAPI()
 
+env = SupportEnv()
+
+
+
+@app.post("/reset")
+def reset():
+    state = env.reset()
+    return state
+
+@app.get("/state")
+def state():
+    return env.state()
+
+@app.post("/step")
+def step(action: dict):
+    obs, reward, done, info = env.step(action)
+    return {
+        "observation": obs,
+        "reward": reward,
+        "done": done,
+        "info": info
+    }
+
+
+
 @app.get("/")
 def home():
-    env = SupportEnv()
+    env_local = SupportEnv()
 
     results = []
 
-    for task in env.tasks:
-        env.current_task = task
+    for task in env_local.tasks:
+        env_local.current_task = task
 
         action = {
             "category": task.get("expected_category"),
@@ -19,23 +44,21 @@ def home():
             "response": "We are sorry, we will resolve your issue"
         }
 
-        _, reward, _, info = env.step(action)
+        _, reward, _, info = env_local.step(action)
 
         results.append({
-        "task_id": task["id"],
-        "difficulty": task["id"].split("_")[0],
-        "reward": reward,
-        "status": "evaluated",
-        "evaluation": {
-        "score": reward,
-        "explanation": info["reason"]
-        }
+            "task_id": task["id"],
+            "difficulty": task["id"].split("_")[0],
+            "reward": reward,
+            "status": "evaluated",
+            "evaluation": {
+                "score": reward,
+                "explanation": info["reason"]
+            }
         })
 
-    # 🔥 NEW: overall average
     avg_reward = round(sum(r["reward"] for r in results) / len(results), 2)
 
-    # 🔥 NEW: difficulty breakdown
     difficulty_groups = {
         "easy": [],
         "medium": [],
@@ -51,12 +74,12 @@ def home():
     }
 
     return {
-    "status": "running",
-    "environment": "support_env",
-    "summary": {
-        "total_tasks": len(env.tasks),
-        "average_reward": avg_reward,
-        "difficulty_average": difficulty_avg
-    },
-    "results": results
+        "status": "running",
+        "environment": "support_env",
+        "summary": {
+            "total_tasks": len(env_local.tasks),
+            "average_reward": avg_reward,
+            "difficulty_average": difficulty_avg
+        },
+        "results": results
     }
