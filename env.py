@@ -34,7 +34,8 @@ class SupportEnv:
         if action.get("resolution") == self.current_task.get("expected_resolution"):
             reward += 0.05
 
-        reward = max(0, round(reward, 2))
+        reward = round(reward, 2)
+        reward = max(0.01, min(0.99, reward))
 
         info = {
             "reason": "reward based on category, priority, resolution, and response quality"
