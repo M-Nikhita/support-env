@@ -3,19 +3,21 @@ import json
 from openai import OpenAI
 from env import SupportEnv
 
-# 🔥 STRICT ENV (NO DEFAULTS → FORCE PROXY USAGE)
-API_BASE_URL = os.environ["API_BASE_URL"]
-API_KEY = os.environ["API_KEY"]
-MODEL_NAME = os.environ["MODEL_NAME"]
+API_BASE_URL = os.getenv("API_BASE_URL", "https://api.openai.com/v1")
+MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4o-mini")
+
+# ❗ NO DEFAULT for HF_TOKEN (as per checklist)
+HF_TOKEN = os.getenv("HF_TOKEN")
 
 print(f"[DEBUG] Using API_BASE_URL={API_BASE_URL}")
 print(f"[DEBUG] Using MODEL_NAME={MODEL_NAME}")
 
-# 🔥 CLIENT (MUST HIT PROXY)
+# ✅ Use HF_TOKEN for OpenAI client
 client = OpenAI(
     base_url=API_BASE_URL,
-    api_key=API_KEY
+    api_key=HF_TOKEN
 )
+
 
 env = SupportEnv()
 
